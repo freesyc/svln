@@ -83,7 +83,7 @@ int main (int argc, char *argv[]) {
 			}
 		}
 	} else if (argc > 1) {
-		if (!strcmp(argv[1], "list")) {
+		if (!strcmp(argv[1], "list") || !strcmp(argv[1], "-l")) {
 			string svList = "ls /etc/sv/";
 			system(svList.c_str());
 		}
