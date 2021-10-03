@@ -76,6 +76,17 @@ int main (int argc, char *argv[]) {
 				cout << "Service " << svName << " does not exist" << endl;
 			}
 		}
+		if (!strcmp(argv[1], "list") || !strcmp(argv[1], "-l")) {
+			if (!strcmp(argv[2], "enabled")) {
+				string svListEnabled = "ls /var/service/";
+				system(svListEnabled.c_str());
+			}
+		}
+	} else if (argc > 1) {
+		if (!strcmp(argv[1], "list")) {
+			string svList = "ls /etc/sv/";
+			system(svList.c_str());
+		}
 	}
 	
 	return 0;
