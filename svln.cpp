@@ -42,8 +42,10 @@ bool svExists(string path, string name) {
 	ifstream ifile;
 	ifile.open(path+name);
 	if(ifile){
+		ifile.close();
 		return true;
 	} else {
+		ifile.close();
 		return false;
 	}
 	
@@ -75,6 +77,20 @@ int main (int argc, char *argv[]) {
 			} else if (!svExists(svDir, svName)) {
 				cout << "Service " << svName << " does not exist" << endl;
 			}
+		}
+		if (!strcmp(argv[1], "list") || !strcmp(argv[1], "-l")) {
+			if (!strcmp(argv[2], "enabled")) {
+				string svListEnabled = "ls /var/service/";
+				system(svListEnabled.c_str());
+			}
+		}
+	} else if (argc > 1) {
+		if (!strcmp(argv[1], "list") || !strcmp(argv[1], "-l")) {
+			string svList = "ls /etc/sv/";
+			system(svList.c_str());
+		}
+		if (!strcmp(argv[1], "about") || !strcmp(argv[1], "-ab")) {
+			cout << "Developed by lnz222 (Luan Carlos Adão)" << endl;
 		}
 	}
 	
