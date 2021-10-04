@@ -1,2 +1,2 @@
 # svln
-Simple tool to manage runit services.
+(study project) Simple tool to manage runit services.
