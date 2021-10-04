@@ -51,48 +51,90 @@ bool svExists(string path, string name) {
 	
 }
 
+void svMan(string type, string service) {
+	if (type == "enable") {
+		if (svExists(svDir, service) && !svExists(varSvDir, service))  {
+			string svEnable = "sudo ln -s /etc/sv/" + service + " /etc/runit/runsvdir/default";
+			system(svEnable.c_str());
+			cout << "Service " << service << " enabled" << endl;
+		} else if (!svExists(svDir, service)) {
+			cout << "Service " << service <<  " does not exist" << endl;
+		}  else if (svExists(varSvDir, service)) {
+			cout << "Service " << service << " is already enabled" << endl;
+		}
+	}
+	if (type == "disable") {
+		if (svExists(varSvDir, service)) {
+			string svDisable = "sudo rm -r /etc/runit/runsvdir/default/"+service;
+			system(svDisable.c_str());
+			cout << "Service " << service << " disabled" << endl;
+		} else if (!svExists(varSvDir, service) && svExists(svDir, service)) {
+			cout << "Service " << service << " is already disabled" << endl;
+		} else if (!svExists(svDir, service)) {
+			cout << "Service " << service << " does not exist" << endl;
+		}
+	}
+}
+
+void svListCmd(bool enabled) {
+	if (enabled == true) {
+		string svListEnabled = "ls /var/service/";
+		system(svListEnabled.c_str());
+	} else {
+		string svList = "ls /etc/sv/";
+		system(svList.c_str());
+	}
+} 
+
 
 int main (int argc, char *argv[]) {
 	
 	if (argc > 2) {
-		string svName = argv[2];
 		if (!strcmp(argv[1], "enable")) {
-			if (svExists(svDir, svName) && !svExists(varSvDir, svName))  {
-				string svEnable = "ln -s /etc/sv/" + svName + " /etc/runit/runsvdir/default";
-				system(svEnable.c_str());
-				cout << "Service " << svName << " enabled" << endl;
-			} else if (!svExists(svDir, svName)) {
-				cout << "Service " << svName <<  " does not exist" << endl;
-			}  else if (svExists(varSvDir, svName)) {
-				cout << "Service " << svName << " is already enabled" << endl;
-			}
+			svMan("enable", argv[2]);
 		}
 		if (!strcmp(argv[1], "disable")) {
-			if (svExists(varSvDir, svName)) {
-				string svDisable = "rm -r /etc/runit/runsvdir/default/"+svName;
-				system(svDisable.c_str());
-				cout << "Service " << svName << " disabled" << endl;
-			} else if (!svExists(varSvDir, svName) && svExists(svDir, svName)) {
-				cout << "Service " << svName << " is already disabled" << endl;
-			} else if (!svExists(svDir, svName)) {
-				cout << "Service " << svName << " does not exist" << endl;
-			}
+			svMan("disable", argv[2]);
 		}
-		if (!strcmp(argv[1], "list") || !strcmp(argv[1], "-l")) {
-			if (!strcmp(argv[2], "enabled")) {
-				string svListEnabled = "ls /var/service/";
-				system(svListEnabled.c_str());
-			}
+		if (!strcmp(argv[1], "list") || !strcmp(argv[1], "-l") && !strcmp(argv[2], "enabled")) {
+			svListCmd(true);
 		}
-	} else if (argc > 1) {
+	
+	} else {
 		if (!strcmp(argv[1], "list") || !strcmp(argv[1], "-l")) {
-			string svList = "ls /etc/sv/";
-			system(svList.c_str());
+			svListCmd(false);
 		}
 		if (!strcmp(argv[1], "about") || !strcmp(argv[1], "-ab")) {
-			cout << "Developed by lnz222 (Luan Carlos Adão)" << endl;
+			cout << "\nDeveloped by lnz222 (Luan Carlos Adão)" << endl;
+			cout << "Version: 0.2\n" << endl;
+			cout << "License: BSD 2-Clause License" << endl;
+			cout << "Copyright (c) 2021, Luan Carlos Adão (lnz222)\nAll rights reserved.\n" << endl;
 		}
 	}
 	
+	
 	return 0;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
