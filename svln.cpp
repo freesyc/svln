@@ -54,7 +54,7 @@ bool svExists(string path, string name) {
 void svMan(string type, string service) {
 	if (type == "enable") {
 		if (svExists(svDir, service) && !svExists(varSvDir, service))  {
-			string svEnable = "sudo ln -s /etc/sv/" + service + " /etc/runit/runsvdir/default";
+			string svEnable = "sudo ln -s" +svDir + service + varSvDir;
 			system(svEnable.c_str());
 			cout << "Service " << service << " enabled" << endl;
 		} else if (!svExists(svDir, service)) {
@@ -78,10 +78,12 @@ void svMan(string type, string service) {
 
 void svListCmd(bool enabled) {
 	if (enabled == true) {
-		string svListEnabled = "ls /var/service/";
+        cout << "Enabled services:" << endl;
+		string svListEnabled = "ls --color=auto /var/service/";
 		system(svListEnabled.c_str());
 	} else {
-		string svList = "ls /etc/sv/";
+        cout << "Available services:" << endl;
+		string svList = "ls --color=auto /etc/sv/";
 		system(svList.c_str());
 	}
 } 
@@ -100,17 +102,19 @@ int main (int argc, char *argv[]) {
 			svListCmd(true);
 		}
 	
-	} else {
+	} else if (argc == 2) {
 		if (!strcmp(argv[1], "list") || !strcmp(argv[1], "-l")) {
 			svListCmd(false);
 		}
 		if (!strcmp(argv[1], "about") || !strcmp(argv[1], "-ab")) {
-			cout << "\nDeveloped by lnz222 (Luan Carlos Adão)" << endl;
+			cout << "\nDeveloped by Luan Carlos Adão" << endl;
 			cout << "Version: 0.2\n" << endl;
 			cout << "License: BSD 2-Clause License" << endl;
-			cout << "Copyright (c) 2021, Luan Carlos Adão (lnz222)\nAll rights reserved.\n" << endl;
+			cout << "Copyright (c) 2021-2022, Luan Carlos Adão\nAll rights reserved.\n" << endl;
 		}
-	}
+	} else {
+        cout << "Use:\n enable - to enable a service\n disable - to disable a service\n list - to list disponible services" << endl;
+    }
 	
 	
 	return 0;
