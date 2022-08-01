@@ -37,6 +37,7 @@ using namespace std;
 
 string svDir = "/etc/sv/";
 string varSvDir = "/etc/runit/runsvdir/default/";
+string version = "0.3";
 
 bool svExists(string path, string name) {
 	ifstream ifile;
@@ -54,7 +55,7 @@ bool svExists(string path, string name) {
 void svMan(string type, string service) {
 	if (type == "enable") {
 		if (svExists(svDir, service) && !svExists(varSvDir, service))  {
-			string svEnable = "sudo ln -s" +svDir + service + varSvDir;
+			string svEnable = "sudo ln -s " +svDir + service + " " + varSvDir;
 			system(svEnable.c_str());
 			cout << "Service " << service << " enabled" << endl;
 		} else if (!svExists(svDir, service)) {
@@ -108,7 +109,7 @@ int main (int argc, char *argv[]) {
 		}
 		if (!strcmp(argv[1], "about") || !strcmp(argv[1], "-ab")) {
 			cout << "\nDeveloped by Luan Carlos Adão" << endl;
-			cout << "Version: 0.2\n" << endl;
+			cout << "Version: " + version << endl;
 			cout << "License: BSD 2-Clause License" << endl;
 			cout << "Copyright (c) 2021-2022, Luan Carlos Adão\nAll rights reserved.\n" << endl;
 		}
