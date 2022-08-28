@@ -1,7 +1,7 @@
 /*
 BSD 2-Clause License
 
-Copyright (c) 2021, Luan Carlos Adão (lnz222)
+Copyright (c) 2021, Luan Carlos Adão (luan-adao)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -39,6 +39,7 @@ string svDir = "/etc/sv/";
 string varSvDir = "/etc/runit/runsvdir/default/";
 string version = "0.3";
 
+//check if a service exists in the system
 bool svExists(string path, string name) {
 	ifstream ifile;
 	ifile.open(path+name);
@@ -53,28 +54,30 @@ bool svExists(string path, string name) {
 }
 
 void svMan(string type, string service) {
+    string svManAction;
 	if (type == "enable") {
 		if (svExists(svDir, service) && !svExists(varSvDir, service))  {
-			string svEnable = "sudo ln -s " +svDir + service + " " + varSvDir;
-			system(svEnable.c_str());
+			//string svEnable = "sudo ln -s " +svDir + service + " " + varSvDir;
+			svManAction = "sudo ln -s " +svDir + service + " " + varSvDir;
+            //system(svEnable.c_str());
 			cout << "Service " << service << " enabled" << endl;
-		} else if (!svExists(svDir, service)) {
-			cout << "Service " << service <<  " does not exist" << endl;
-		}  else if (svExists(varSvDir, service)) {
+		} else if (svExists(varSvDir, service)) {
 			cout << "Service " << service << " is already enabled" << endl;
 		}
 	}
 	if (type == "disable") {
 		if (svExists(varSvDir, service)) {
-			string svDisable = "sudo rm -r /etc/runit/runsvdir/default/"+service;
-			system(svDisable.c_str());
+			//string svDisable = "sudo rm -r /etc/runit/runsvdir/default/"+serv	svManAction = "sudo rm -t /etc/runit/runsvdir/default/"+service;
+            //system(svDisable.c_str());
 			cout << "Service " << service << " disabled" << endl;
 		} else if (!svExists(varSvDir, service) && svExists(svDir, service)) {
 			cout << "Service " << service << " is already disabled" << endl;
-		} else if (!svExists(svDir, service)) {
-			cout << "Service " << service << " does not exist" << endl;
 		}
 	}
+    if (!svExists(svDir, service)) {
+        cout << "Service " << service << " does not exist" << endl;
+    }
+    system(svManAction.c_str());
 }
 
 void svListCmd(bool enabled) {
