@@ -1,7 +1,7 @@
 /*
 BSD 2-Clause License
 
-Copyright (c) 2021, Luan Carlos Adão (luan-adao)
+Copyright (c) 2021-2022, Luan Carlos Adão (luan-adao)
 All rights reserved.
 
 Redistribution and use in source and binary forms, with or without
@@ -111,7 +111,8 @@ int main (int argc, char *argv[]) {
 			svListCmd(false);
 		}
 		if (!strcmp(argv[1], "about") || !strcmp(argv[1], "-ab")) {
-			cout << "\nDeveloped by Luan Carlos Adão" << endl;
+            cout << "svln: tool for manage runit services in Void Linux" << endl;
+			cout << "Developed by Luan Carlos Adão" << endl;
 			cout << "Version: " + version << endl;
 			cout << "License: BSD 2-Clause License" << endl;
 			cout << "Copyright (c) 2021-2022, Luan Carlos Adão\nAll rights reserved.\n" << endl;
