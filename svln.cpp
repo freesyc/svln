@@ -67,7 +67,8 @@ void svMan(string type, string service) {
 	}
 	if (type == "disable") {
 		if (svExists(varSvDir, service)) {
-			//string svDisable = "sudo rm -r /etc/runit/runsvdir/default/"+serv	svManAction = "sudo rm -t /etc/runit/runsvdir/default/"+service;
+			//string svDisable = "sudo rm -r /etc/runit/runsvdir/default/"+serv	
+            svManAction = "sudo rm " + varSvDir + service;
             //system(svDisable.c_str());
 			cout << "Service " << service << " disabled" << endl;
 		} else if (!svExists(varSvDir, service) && svExists(svDir, service)) {
