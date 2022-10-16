@@ -1,2 +1,2 @@
 # svln
-(study project) Simple tool to manage runit services.
+(c++ study case) Simple tool to manage runit services.
